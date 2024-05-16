@@ -1,14 +1,17 @@
 import { Html5QrcodeResult } from "html5-qrcode";
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import BarcodeScanner from "./BarcodeScanner";
 
 const App: React.FC = () => {
+  const [decodedText, setDecodedText] = useState<string>("");
+
   const handleScanSuccess = (
     decodedText: string,
     decodedResult: Html5QrcodeResult
   ) => {
     console.log(`Decoded text: ${decodedText}`, decodedResult);
+    setDecodedText(decodedText);
   };
 
   const handleScanFailure = (error: string) => {
@@ -22,6 +25,12 @@ const App: React.FC = () => {
         <BarcodeScanner
           onScanSuccess={handleScanSuccess}
           onScanFailure={handleScanFailure}
+        />
+        <input
+          type="text"
+          value={decodedText}
+          readOnly
+          className="scan-result"
         />
       </div>
     </div>
